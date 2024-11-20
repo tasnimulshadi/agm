@@ -1,0 +1,43 @@
+{
+  "admin": [
+    {
+      "id": 1,
+      "email": "shadi@email.com",
+      "password": "1234",
+      "level": 1
+    },
+    {
+      "id": 2,
+      "email": "dibash@email.com",
+      "password": "1234",
+      "level": 2
+    },
+    {
+      "id": 3,
+      "email": "miraj@email.com",
+      "password": "1234",
+      "level": 3
+    }
+  ],
+  "event": [
+    {
+      "name": "Tiger AGM 2024",
+      "agenda": "Continuity of Mutual fund for next 10 years",
+      "organizer": "Tiger Capital",
+      "sponser": [
+        "BGIC",
+        "Tiger",
+        "Shadi"
+      ],
+      "date": 1732060800000,
+      "start": 1732075200000,
+      "end": 1732104000000,
+      "participants": 9888,
+      "present": 0,
+      "image": "https://media.istockphoto.com/id/1397258192/photo/agm-annual-general-meeting-words-in-notebook-and-wooden-background.jpg?s=612x612&w=0&k=20&c=mGXim_TeQut4TupoherQyF3EX5h1wkJLeFU5pj75Xfk=",
+      "id": 1
+    }
+  ],
+  "shareholder": [],
+  "vote": []
+}
