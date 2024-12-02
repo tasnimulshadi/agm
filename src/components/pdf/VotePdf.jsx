@@ -2,7 +2,6 @@ import { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/render
 import moment from 'moment';
 import numberWithCommas from "../../utils/numberWithCommas"
 
-
 function VotePdf({ eventData, data }) {
 
     function calculatePercentage(part, whole) {
@@ -91,7 +90,7 @@ function VotePdf({ eventData, data }) {
                         </View>
                     </View>
                     <Image
-                        source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTuBTErfWAM-j7tFbLHI2ZAWtkYkUe7sFz-w&s' }}
+                        src="../../assets/bgiclogo.png"
                         style={{ width: 100 }}
                     />
                 </View>

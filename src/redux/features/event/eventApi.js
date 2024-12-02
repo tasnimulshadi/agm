@@ -5,7 +5,7 @@ export const eventApi = apiSlice.injectEndpoints({
         // useGetEventsQuery
         getEvents: builder.query({
             query: () => ({
-                url: `/event`
+                url: `event?isDeleted=false`
             }),
             keepUnusedDataFor: false
         }),

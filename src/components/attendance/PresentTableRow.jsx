@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
-import img from './123456789.png'
 import moment from 'moment';
 import { useUpdateAttendanceMutation } from '../../redux/features/attendance/attendanceApi';
 import isCurrentDateTimeBetween from '../../utils/isCurrentDateTimeBetween'
 import numberWithCommas from "../../utils/numberWithCommas"
+import { useSelector } from 'react-redux';
 
 function PresentTableRow({ index, item, eventStart, eventEnd }) {
+  const { user } = useSelector(state => state.auth)
   const [showModal, setShowModal] = useState(false);
   const { id, boid, name, unit, time1, time2, signature, present } = item;
 
@@ -53,12 +54,15 @@ function PresentTableRow({ index, item, eventStart, eventEnd }) {
         {
           present
             ? <button className="btn btn-success text-white cursor-default">Present</button>
-            : <button
-              className="btn btn-warning"
-              onClick={() => setShowModal(true)}
-              disabled={!isUninitialized}
-            >
-              Approve</button>
+            : user?.level < 3
+              ? <button
+                className="btn btn-warning"
+                onClick={() => setShowModal(true)}
+                disabled={!isUninitialized}
+              >
+                Approve</button>
+              : <button className="btn btn-warning" disabled>Waiting For Approval</button>
+
         }
 
 
@@ -100,7 +104,7 @@ function PresentTableRow({ index, item, eventStart, eventEnd }) {
           </form>
         </dialog>
       </td>
-    </tr>
+    </tr >
   )
 }
 

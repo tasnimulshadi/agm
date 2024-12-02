@@ -2,11 +2,11 @@ import { useSelector } from "react-redux"
 import { Navigate, useNavigate } from "react-router-dom"
 
 function PublicRoute({ children, routeLevel }) {
-    const { level } = useSelector(state => state.auth)
-    // console.log({ level, routeLevel });
+    const { user } = useSelector(state => state.auth)
+    console.log({ level: user.level, routeLevel });
 
 
-    return level <= routeLevel ? children : <Navigate to={'/events'} />
+    return user?.level <= routeLevel ? children : <Navigate to={'/events'} />
 }
 
 export default PublicRoute

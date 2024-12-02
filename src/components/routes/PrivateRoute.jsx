@@ -1,31 +1,33 @@
 import { useNavigate, Navigate } from "react-router-dom"
 import { FaHome } from "react-icons/fa";
 import { IoLogOut } from "react-icons/io5";
-import { GiHamburgerMenu } from "react-icons/gi";
 import { userLoggedOut } from "../../redux/features/auth/authSlice";
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
+import useAuth from "../../hooks/useAuth";
+import bgiclogo from "../../assets/bgiclogo.png"
 
 function PrivateRoute({ children }) {
-    const { id } = useSelector(state => state.auth)
+    const isLoggedIn = useAuth();
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
-    function logout() {
+    const logout = () => {
         dispatch(userLoggedOut());
         localStorage.clear();
-    }
+    };
 
-    return id
+    return isLoggedIn
         ? <div className="drawer">
             <input id="my-drawer" type="checkbox" className="drawer-toggle" />
             <div className="drawer-content bg">
                 {/* Page content here */}
-                <nav className="bg-blue-200 flex justify-between p-2 shadow-lg">
+                <nav className="bg-blue-200 flex justify-between p-2 px-5 shadow-lg">
                     <div className="flex gap-2">
                         {/* <label htmlFor="my-drawer" className="btn drawer-button"><GiHamburgerMenu size={30} /></label> */}
                         <img
-                            src="https://lh4.googleusercontent.com/proxy/2tYPuxhUpED8uDnLRJHMLfXcrpWcs_1_inokPqVWrU13RycykLFesf2K4BgQ8BRUUy1t14jsXlKiILvfIr5w4g8t8Tt1xCvavPxMfbvsNd8uFXHcLQ"
+                            src={bgiclogo}
+                            // src="https://bgicinsure.com/images/logo-2.jpg"
                             alt="logo"
                             className="h-14"
                         />

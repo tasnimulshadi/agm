@@ -3,32 +3,70 @@ import { userLoggedIn } from "./authSlice";
 
 export const authApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
-        // useGetUserQuery
-        getUser: builder.query({
-            query: ({ email, password }) => ({
-                url: `/admin?email=${email}&password=${password}`
+        register: builder.mutation({
+            query: (data) => ({
+                url: "/register",
+                method: "POST",
+                body: data,
             }),
-            keepUnusedDataFor: 0,
-            providesTags: ["auth"],
+            // async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+            //     try {
+            //         const result = await queryFulfilled;
+
+            //         localStorage.setItem(
+            //             "auth",
+            //             JSON.stringify({
+            //                 accessToken: result.data.accessToken,
+            //                 user: result.data.user,
+            //             })
+            //         );
+
+            //         dispatch(
+            //             userLoggedIn({
+            //                 accessToken: result.data.accessToken,
+            //                 user: result.data.user,
+            //             })
+            //         );
+            //     } catch (err) {
+            //         // do nothing
+            //     }
+            // },
+        }),
+        login: builder.mutation({
+            query: (data) => ({
+                url: "/login",
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data),
+            }),
+
             async onQueryStarted(arg, { queryFulfilled, dispatch }) {
                 try {
                     const result = await queryFulfilled;
 
-                    // store in loca storage
-                    localStorage.setItem('auth', JSON.stringify(result.data[0]))
 
-                    // store in redux
-                    dispatch(userLoggedIn(result.data[0]))
+                    localStorage.setItem(
+                        "auth",
+                        JSON.stringify({
+                            accessToken: result.data.accessToken,
+                            user: result.data.user,
+                        })
+                    );
 
-                } catch (error) {
-                    console.log("useGetUserQuery -> onQueryStarted -> error: ", error);
+                    dispatch(
+                        userLoggedIn({
+                            accessToken: result.data.accessToken,
+                            user: result.data.user,
+                        })
+                    );
+                } catch (err) {
+                    console.error("Login Error:", err);
                 }
-            }
+            },
         }),
+    }),
+});
 
-
-        //
-    })
-})
-
-export const { useGetUserQuery } = authApi;
+export const { useLoginMutation, useRegisterMutation } = authApi;

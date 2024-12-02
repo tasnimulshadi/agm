@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import img from './123456789.png'
 import { useAddToAttendanceMutation } from '../../redux/features/attendance/attendanceApi';
 import isCurrentDateTimeBetween from '../../utils/isCurrentDateTimeBetween'
 import numberWithCommas from "../../utils/numberWithCommas"

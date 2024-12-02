@@ -41,7 +41,7 @@ function App() {
           </PrivateRoute>} />
 
           <Route path="/present/:eventId" element={<PrivateRoute>
-            <LevelRoute routeLevel={2}>
+            <LevelRoute routeLevel={3}>
               <Present />
             </LevelRoute>
           </PrivateRoute>} />
@@ -53,7 +53,7 @@ function App() {
           </PrivateRoute>} />
 
           <Route path="/vote/:eventId" element={<PrivateRoute>
-            <LevelRoute routeLevel={2}>
+            <LevelRoute routeLevel={3}>
               <Vote />
             </LevelRoute>
           </PrivateRoute>} />

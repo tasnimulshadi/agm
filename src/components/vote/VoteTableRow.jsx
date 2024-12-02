@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
-import img from './123456789.png'
 import { useUpdateVoteMutation } from '../../redux/features/vote/voteApi';
 import isCurrentDateTimeBetween from '../../utils/isCurrentDateTimeBetween'
 import moment from 'moment';
 import numberWithCommas from "../../utils/numberWithCommas"
+import { useSelector } from 'react-redux';
 
 function VoteTableRow({ index, item, eventStart, eventEnd }) {
+  const { user } = useSelector(state => state.auth)
   const [showModal, setShowModal] = useState(false);
   const { id, boid, name, unit, signature, vote, voteTime } = item;
 
@@ -60,7 +61,7 @@ function VoteTableRow({ index, item, eventStart, eventEnd }) {
       <td>
         {
           vote === ''
-            ? isCurrentDateTimeBetween(eventStart, eventEnd)
+            ? isCurrentDateTimeBetween(eventStart, eventEnd) && user?.level < 3
               ? <button
                 className="btn btn-warning"
                 onClick={() => setShowModal(true)}

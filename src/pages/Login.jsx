@@ -1,26 +1,42 @@
-import { useState } from "react"
-import { useDispatch } from "react-redux"
-import { authApi } from "../redux/features/auth/authApi"
-import { apiSlice } from "../redux/features/api/apiSlice"
-
+import { useEffect, useState } from "react"
+import { useLoginMutation, useRegisterMutation } from "../redux/features/auth/authApi"
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+    const navigate = useNavigate();
+
     const [email, setEmail] = useState('shadi@email.com');
     const [password, setPassword] = useState('1234');
-    const dispatch = useDispatch();
+    const [error, setError] = useState("");
 
-    // Function to handle login form submission
-    function handleLogin(e) {
-        e.preventDefault(); // Prevents the default form submission behavior (page reload)
+    const [login, { data, isLoading, error: responseError }] =
+        useLoginMutation();
 
-        // Check if both email and password are provided
-        if (email && password) {
-            // Manually invalidate the 'auth' cache tag, ensuring the cached data is cleared
-            dispatch(apiSlice.util.invalidateTags(['auth']));
 
-            // Dispatch an API request to the `getUser` endpoint, passing the email and password
-            dispatch(authApi.endpoints.getUser.initiate({ email, password }));
+    useEffect(() => {
+        if (responseError?.data) {
+            setError(responseError.data);
         }
+        if (data?.accessToken && data?.user) {
+            navigate("/events");
+        }
+    }, [data, responseError, navigate]);
+
+
+    function handleSubmit(e) {
+        e.preventDefault();
+
+        setError("");
+
+        login({
+            email,
+            password,
+        });
+        // register({
+        //     email,
+        //     password,
+        //     level: 2
+        // });
     }
 
 
@@ -32,7 +48,7 @@ function Login() {
                     <p className="text-3xl font-bold text-center">AGM Attendance and Voting</p>
                 </div>
                 <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-                    <form className="card-body gap-5" onSubmit={handleLogin}>
+                    <form className="card-body gap-5" onSubmit={handleSubmit}>
                         <input
                             type="email"
                             placeholder="email"
@@ -53,6 +69,8 @@ function Login() {
                                 <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
                             </label> */}
                         <button className="btn btn-primary font-bold text-xl">Login</button>
+
+                        {error && <p className="text-red-500">{error}</p>}
                     </form>
                 </div>
             </div>

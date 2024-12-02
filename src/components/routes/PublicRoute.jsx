@@ -1,10 +1,11 @@
 import { useSelector } from "react-redux"
 import { Navigate, useNavigate } from "react-router-dom"
+import useAuth from "../../hooks/useAuth";
 
 function PublicRoute({ children }) {
-    const { id } = useSelector(state => state.auth)
+    const isLoggedIn = useAuth();
 
-    return !id ? children : <Navigate to={'/events'} />
+    return !isLoggedIn ? children : <Navigate to={'/events'} />
 }
 
 export default PublicRoute

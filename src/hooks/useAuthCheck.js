@@ -4,23 +4,26 @@ import { userLoggedIn } from "../redux/features/auth/authSlice";
 
 function useAuthCheck() {
     const dispatch = useDispatch();
-    const [checked, setChecked] = useState(false);
+    const [authChecked, setAuthChecked] = useState(false);
 
     useEffect(() => {
-        const localStorageAuthData = localStorage?.getItem('auth');
+        const localAuth = localStorage?.getItem("auth");
 
-        if (localStorageAuthData) {
-            const auth = JSON.parse(localStorageAuthData);
-
-            if (auth?.id) {
-                dispatch(userLoggedIn(auth))
+        if (localAuth) {
+            const auth = JSON.parse(localAuth);
+            if (auth?.accessToken && auth?.user) {
+                dispatch(
+                    userLoggedIn({
+                        accessToken: auth.accessToken,
+                        user: auth.user,
+                    })
+                );
             }
         }
+        setAuthChecked(true);
+    }, [dispatch, setAuthChecked]);
 
-        setChecked(true)
-    }, [dispatch, setChecked]);
-
-    return checked;
+    return authChecked;
 }
 
 export default useAuthCheck

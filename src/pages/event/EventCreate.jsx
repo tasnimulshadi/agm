@@ -59,6 +59,7 @@ function EventCreate() {
             participants,
             present,
             image,
+            isDeleted: false
         });
     }
 

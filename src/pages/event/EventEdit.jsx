@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react"
 import { FaPlus } from "react-icons/fa";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useGetSingleEventQuery, useUpdateEventMutation } from "../../redux/features/event/eventApi";
 import moment from "moment";
 
 
 function EventEdit() {
     const { eventId } = useParams();
-    const { data: event, isLoading: fetchIsLoading, isSuccess: fetchIsSuccess } = useGetSingleEventQuery(eventId);
+    const { data: event, isLoading: fetchIsLoading, isSuccess: fetchIsSuccess, isError: fetchIsError } = useGetSingleEventQuery(eventId);
+    const navigate = useNavigate();
 
     const [name, setName] = useState('');
     const [agenda, setAgenda] = useState('');
@@ -20,6 +21,7 @@ function EventEdit() {
     const [participants, setParticipants] = useState(9888);
     const [present, setPresent] = useState(0);
     const [image, setImage] = useState('');
+    const [isDeleted, setIsDeleted] = useState(false)
 
     const [updateEvent, { isLoading, isError, isSuccess }] = useUpdateEventMutation()
 
@@ -37,7 +39,11 @@ function EventEdit() {
             setPresent(event.present)
             setImage(event.image)
         }
-    }, [event, fetchIsSuccess])
+
+        if (!fetchIsLoading && fetchIsError) {
+            navigate('/events')
+        }
+    }, [event, fetchIsSuccess, fetchIsLoading, fetchIsError])
 
 
     function addSponser(e) {
@@ -78,22 +84,55 @@ function EventEdit() {
         });
     }
 
+    function handleDelete(e) {
+        e.preventDefault();
+
+        setIsDeleted(true);
+
+        updateEvent({
+            id: eventId,
+            data: {
+                isDeleted: true
+            }
+        });
+    }
+
+    useEffect(() => {
+        if (isDeleted && isSuccess) {
+            navigate('/events')
+        }
+    }, [isDeleted, isSuccess])
+
+
+
+
+
     return (
         <form className='px-10 py-5 bg' onSubmit={handleSubmit}>
             <div className="flex justify-between items-center">
                 <h1 className='text-3xl font-bold'>Update Event</h1>
-                <button
-                    className="btn btn-primary"
-                    type="submit"
-                    disabled={fetchIsLoading || isLoading}
-                >
-                    Update Event
-                    {
-                        fetchIsLoading || isLoading
-                            ? <span className="loading loading-spinner"></span>
-                            : <FaPlus />
-                    }
-                </button>
+                <div className="flex gap-2">
+                    <button
+                        className="btn btn-error"
+                        type="button"
+                        disabled={fetchIsLoading || isLoading}
+                        onClick={handleDelete}
+                    >
+                        Delete Event
+                    </button>
+                    <button
+                        className="btn btn-primary"
+                        type="submit"
+                        disabled={fetchIsLoading || isLoading}
+                    >
+                        Update Event
+                        {
+                            fetchIsLoading || isLoading
+                                ? <span className="loading loading-spinner"></span>
+                                : <FaPlus />
+                        }
+                    </button>
+                </div>
             </div>
 
             <div className="divider"></div>
@@ -233,4 +272,4 @@ function EventEdit() {
     )
 }
 
-export default EventEdit
+export default EventEdit 

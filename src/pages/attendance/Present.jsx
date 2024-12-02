@@ -13,7 +13,6 @@ import { pdf } from '@react-pdf/renderer';
 import PresentPdf from '../../components/pdf/PresentPdf';
 
 
-
 function Present() {
     const { eventId } = useParams();
     const navigate = useNavigate();
@@ -129,6 +128,7 @@ function Present() {
                     </button>
                 </div>
                 <div className='flex items-center gap-3'>
+                    {/* Search */}
                     <label className="input input-bordered flex items-center gap-2">
                         <input
                             type="text"
@@ -139,10 +139,12 @@ function Present() {
                         />
                         {search && <IoMdClose onClick={handleClear} />}
                     </label>
-                    <button className="btn btn-primary" onClick={() => navigate(`/attendance/${eventId}`)}>
+
+                    {/* Attendance */}
+                    {isCurrentDateTimeBetween(eventData?.start, eventData?.end) && <button className="btn btn-primary" onClick={() => navigate(`/attendance/${eventId}`)}>
                         Attendance
                         <FaPlus />
-                    </button>
+                    </button>}
                 </div>
             </div>
             <div className="divider">Attendance</div>

@@ -1,19 +1,18 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { FaDownload } from "react-icons/fa";
-import { IoMdClose } from "react-icons/io";
-import VoteTableRow from '../../components/vote/VoteTableRow';
-import { useGetAllVotersQuery } from '../../redux/features/vote/voteApi';
+import { useRef, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import Loading from "../../components/ui/loading/Loading"
 import Error from "../../components/ui/error/Error"
-import { useGetSingleEventQuery } from '../../redux/features/event/eventApi';
+import VoteTableRow from '../../components/vote/VoteTableRow';
 import VotePdf from '../../components/pdf/VotePdf';
+import { useGetAllVotersQuery } from '../../redux/features/vote/voteApi';
+import { useGetSingleEventQuery } from '../../redux/features/event/eventApi';
 import { pdf } from '@react-pdf/renderer';
+import { FaDownload } from "react-icons/fa";
+import { IoMdClose } from "react-icons/io";
 import numberWithCommas from "../../utils/numberWithCommas"
 
 function Vote() {
     const { eventId } = useParams();
-    const navigate = useNavigate();
     const inputRef = useRef(null); // Create a reference to an input element using the useRef hook
     const [search, setSearch] = useState(''); // State for search input, starts with an empty string
 

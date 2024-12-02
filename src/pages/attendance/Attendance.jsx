@@ -48,6 +48,7 @@ function Attendance() {
     });
 
 
+
     useEffect(() => {
         // Check if the event data is no longer loading
         if (!isLoadingEvent) {
